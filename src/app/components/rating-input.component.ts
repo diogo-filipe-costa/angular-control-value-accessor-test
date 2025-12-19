@@ -17,7 +17,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class RatingInputComponent implements ControlValueAccessor {
-  stars: boolean[] = Array(5).fill(false);
+  readonly maxStars = 5;
+  stars: boolean[] = Array(this.maxStars).fill(false);
 
   @Input() disabled = false; // Allow disabling the input
   
@@ -57,9 +58,11 @@ export class RatingInputComponent implements ControlValueAccessor {
   // ControlValueAccessor interface methods
 
   // update the model and notify Angular forms of the change
-  writeValue(rating: number): void {
+  writeValue(rating: number | null | undefined): void {
     console.log('CVA writeValue called with', rating);
-    this.stars = this.stars.map((_, i) => rating > i);
+    // handle null/undefined and clamp the value between 0 and maxStars
+    const safeRating = Math.max(0, Math.min(this.maxStars, Math.floor(rating ?? 0)));
+    this.stars = this.stars.map((_, i) => safeRating > i);
   }
 
   registerOnChange(fn: (value: number) => void): void {

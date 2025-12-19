@@ -9,7 +9,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
   standalone: true,
   imports: [RouterOutlet, RatingInputComponent, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'control-value-accessor-test';
